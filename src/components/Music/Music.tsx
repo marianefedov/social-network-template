@@ -1,6 +1,6 @@
 import React from "react"
 
-const Music = (props:any) => {
+const Music = () => {
     return (
         <div>
             Music

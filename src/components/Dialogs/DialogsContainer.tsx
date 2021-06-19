@@ -1,28 +1,25 @@
-import React, {Dispatch} from 'react'
-import s from './Dialogs.module.css'
 import {
-    DialogsReduserStateType,
-    DialogsUsersType,
+    DialogsActionType,
+    DialogsStateType,
     sendMessageCreator,
     updateNewMessageBodyCreator
 } from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
-// import StoreContext from "../../StoreContext";
 import {connect} from "react-redux";
-import {ProfileActionType} from "../../redux/profile-reducer";
+import {Dispatch} from "react";
+import {AppStateType} from "../../redux/redux-store";
 
-type DialogsContainerPropsType = {
-    dialogsPage: DialogsReduserStateType
 
+type MapStatePropsType = {
+    state:DialogsStateType
 }
 
-let mapStateToProps = ({dialogsPage}: DialogsContainerPropsType) => {
+let mapStateToProps = (state: AppStateType):MapStatePropsType => {
     return {
-        dialogsPage
+        state: state.dialogsPage
     }
 }
-
-let mapDispatchToProps = (dispatch: Dispatch<any> ) => { // <== any ???? =====?????
+let mapDispatchToProps = (dispatch: Dispatch<DialogsActionType> ) => {
     return {
         sendMessage: () => { dispatch(sendMessageCreator()) },
         updateNewMessageBody: (body:string) => { dispatch(updateNewMessageBodyCreator(body)) }
@@ -30,7 +27,6 @@ let mapDispatchToProps = (dispatch: Dispatch<any> ) => { // <== any ???? =====??
 }
 
 const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
-
 export default DialogsContainer
 
 

@@ -1,7 +1,7 @@
 const SEND_MESSAGE = 'SEND-MESSAGE';
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
 
-export type DialogsUsersType = {
+export type DialogsType = {
     id:number
     name: string
 }
@@ -9,17 +9,15 @@ export type MessagesType = {
     id:number
     message: string
 }
-export type DialogsReduserStateType = {
-    dialogs: DialogsUsersType[]
+export type DialogsStateType = {
+    dialogs: DialogsType[]
     messages: MessagesType[]
     newMessageText: string
 }
-export type DialogsActionType = {
-    type: 'SEND-MESSAGE' | 'UPDATE-NEW-MESSAGE-BODY'
-    newText: string
-}
 
-let initialState: DialogsReduserStateType = {
+
+
+let initialState = {
     dialogs: [
         {id: 1, name: "Dimych"},
         { id: 2, name: "Andrey"},
@@ -39,7 +37,7 @@ let initialState: DialogsReduserStateType = {
     newMessageText: '',
 }
 
-const dialogsReducer = (state = initialState, action: DialogsActionType) => {
+const dialogsReducer = (state:DialogsStateType = initialState, action: DialogsActionType):DialogsStateType => {
 
     switch (action.type) {
         case SEND_MESSAGE:
@@ -49,25 +47,30 @@ const dialogsReducer = (state = initialState, action: DialogsActionType) => {
                 messages: [...state.messages, { id: 7,message: state.newMessageText }],
                 newMessageText: ''
             }
-
         case UPDATE_NEW_MESSAGE_BODY:
             return  {
                 ...state,
-                newMessageText: action.newText  // stateCopy.newMessageText = action.newText
+                newMessageText: action.newText
             }
-
         default:
             return state
     }
 
 }
+//Action Creators
+export type DialogsActionType =  SendMessageACType | UpdateNewMessageBodyACType
+type SendMessageACType = {
+    type: typeof SEND_MESSAGE
+}
+type UpdateNewMessageBodyACType = {
+    type: typeof UPDATE_NEW_MESSAGE_BODY,
+    newText: string
+}
 
-
-export const sendMessageCreator = () => ({
+export const sendMessageCreator = ():SendMessageACType => ({
     type: SEND_MESSAGE
 })
-
-export const updateNewMessageBodyCreator = (text:string) => ({
+export const updateNewMessageBodyCreator = (text:string):UpdateNewMessageBodyACType => ({
     type: UPDATE_NEW_MESSAGE_BODY,
     newText: text
 })

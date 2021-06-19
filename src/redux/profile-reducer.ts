@@ -10,15 +10,8 @@ export type ProfileStateType = {
     posts: PostsType[]
     newPostText: string
 }
-export type ProfileActionType = {
-    type: 'ADD-POST' | 'UPDATE-NEW-POST-TEXT'
-    newText?: string
-}
-export type AddPostActionCreatorType = ()=> ProfileActionType
-export type UpdatePostActionCreatorType = (text: string)=> ProfileActionType
 
-
-let initialState: ProfileStateType  =  {
+let initialState  =  {
     posts:  [
         {id: 1, message: "Hi, how are you?", likeCounts: 15},
         {id: 2, message: "It`s my first post", likeCounts: 10},
@@ -30,7 +23,7 @@ let initialState: ProfileStateType  =  {
 
 
 
-let profileReducer = (state = initialState, action: ProfileActionType) => {
+const profileReducer = (state:ProfileStateType = initialState, action: ProfileActionType):ProfileStateType => {
     switch (action.type) {
 
         case ADD_POST:
@@ -44,7 +37,7 @@ let profileReducer = (state = initialState, action: ProfileActionType) => {
         case UPDATE_NEW_POST_TEXT:
             return  {
                 ...state,
-                newPostText: action.newText // stateCopy.newPostText = action.newText
+                newPostText: action.newText
             }
 
         default:
@@ -52,14 +45,25 @@ let profileReducer = (state = initialState, action: ProfileActionType) => {
     }
 }
 
-export const addPostActionCreator: AddPostActionCreatorType = () => ({ type: ADD_POST })
 
-export const updateNewPostActionCreator: UpdatePostActionCreatorType =(text) => ({
+//Action Creators
+export type ProfileActionType =
+    AddPostActionCreatorType
+    | UpdatePostActionCreatorType
+
+type AddPostActionCreatorType =  {
+    type: typeof ADD_POST
+}
+type UpdatePostActionCreatorType = {
+    type: typeof UPDATE_NEW_POST_TEXT
+    newText: string
+}
+
+export const addPostActionCreator = ():AddPostActionCreatorType => ({ type: ADD_POST })
+export const updateNewPostActionCreator =(text:string):UpdatePostActionCreatorType => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: text
 })
-
-
 
 export default profileReducer
 

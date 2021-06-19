@@ -6,15 +6,20 @@ import {
     UsersStateType, UsersType
 } from "../../redux/users-reducer";
 import Users from "./Users";
+import {AppStateType} from "../../redux/redux-store";
 
 // const Users = require("./Users");
 const {connect} = require("react-redux");
 
-type UsersContainerPropsType = {
-    usersPage: UsersStateType
+// type UsersContainerPropsType = {
+//     usersPage: UsersStateType
+// }
+type MapStatePropsType = {
+    users: UsersType[]
 }
 
-const mapStateToProps = ({usersPage}: UsersContainerPropsType) => {
+
+const mapStateToProps = ({usersPage}: AppStateType):MapStatePropsType => {
     const {users} = usersPage
     return {
         users
