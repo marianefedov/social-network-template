@@ -1,32 +1,37 @@
 import React, {Dispatch} from "react";
 import {
-    followActionCreator,
+    followActionCreator, setCurrentPageActionCreator, setTotalUsersCountAC,
     setUsersActionCreator,
-    unfollowActionCreator,
-    UsersStateType, UsersType
+    unfollowActionCreator, UsersActionType,
+    UsersType
 } from "../../redux/users-reducer";
-import Users from "./Users";
-import {AppStateType} from "../../redux/redux-store";
 
-// const Users = require("./Users");
+import {AppStateType} from "../../redux/redux-store";
+import UsersAPIComponent from "./UsersAPIComponent";
+
+const Users = require("./Users");
 const {connect} = require("react-redux");
 
-// type UsersContainerPropsType = {
-//     usersPage: UsersStateType
-// }
+
 type MapStatePropsType = {
     users: UsersType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
 }
 
 
-const mapStateToProps = ({usersPage}: AppStateType):MapStatePropsType => {
-    const {users} = usersPage
+let mapStateToProps = ({usersPage}: AppStateType):MapStatePropsType => {
+    const {users, pageSize, totalUsersCount, currentPage} = usersPage
     return {
-        users
+        users,
+        pageSize,
+        totalUsersCount,
+        currentPage
     }
 }
 
-let mapDispatchToProps = (dispatch: Dispatch<any>) => {
+let mapDispatchToProps = (dispatch: Dispatch<UsersActionType>) => {
 
     return {
         follow: (userId: number) => {
@@ -37,10 +42,16 @@ let mapDispatchToProps = (dispatch: Dispatch<any>) => {
         },
         setUsers: (users: UsersType[]) => {
             dispatch(setUsersActionCreator(users))
-        }
+        },
+        setCurrentPage: (pageNumber:number) => {
+            dispatch(setCurrentPageActionCreator(pageNumber))
+        },
+        setTotalUsersCount: (totalCount:number) => {
+            dispatch(setTotalUsersCountAC(totalCount))
+        },
     }
 }
 
-const UsersContainer = connect (mapStateToProps, mapDispatchToProps)(Users)
+const UsersContainer = connect (mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
 
 export default UsersContainer

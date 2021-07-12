@@ -1,51 +1,48 @@
 import React from 'react'
-import style from './Users.module.css'
+import s from './Users.module.css'
 import {UsersType} from "../../redux/users-reducer";
-import axios from 'axios'
-import defaulteUserPhoto from '../../assets/images/download.jpg'
+import defaultUserPhoto from '../../assets/images/download.jpg';
+// import {debuglog} from "util";
+
 
 type UsersPropsType = {
     users: UsersType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
     follow: (userId: number) => void
     unfollow: (userId: number) => void
-    setUsers: (users: UsersType[]) => void
+    onPageChanged: (p:number)=> void
+
 }
 
-class Users extends React.Component<UsersPropsType> {
-
-    componentDidMount() {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users')
-            .then(response =>  {
-                debugger
-                this.props.setUsers(response.data.items)
-            })
+let Users = (props:UsersPropsType) => {
+    // debugger
+    let pagesCount = Math.ceil(props.totalUsersCount/props.pageSize);
+    let pages = []
+    for(let i=1; i<=pagesCount; i++) {
+        pages.push(i)
     }
 
-    getUsers = () => {
-        debugger
-        if (this.props.users.length === 0) {
-
-            axios.get('https://social-network.samuraijs.com/api/1.0/users')
-                .then(response =>  {
-                    debugger
-                    this.props.setUsers(response.data.items)
-                })
-        }
-    }
-
-    render(){
-        return (<div>
-            <button onClick={this.getUsers}>GET USERS</button>
+    return (
+        <div>
+            <div className={s.usersPage}>
+                {pages.map(p =>
+                    <span className={props.currentPage === p ? s.selectedPage : ''}
+                          onClick={() => props.onPageChanged(p)}
+                    >{p}</span>)}
+            </div>
             {
-                this.props.users.map( u => <div key={u.id}>
+                props.users.map(u => <div key={u.id}>
                 <span>
                     <div>
-                        <img src={u.photos.small ? u.photos.small : defaulteUserPhoto} className={style.userPhoto} alt="photo"/>
+                        <img src={u.photos.small ? u.photos.small : defaultUserPhoto} className={s.userPhoto}
+                             alt="photo"/>
                     </div>
                     <div>
                         {u.followed
-                            ? <button onClick={() => this.props.unfollow(u.id)}>Unfollow</button>
-                            : <button onClick={() => this.props.follow(u.id)}>Follow</button>
+                            ? <button onClick={() => props.unfollow(u.id)}>Unfollow</button>
+                            : <button onClick={() => props.follow(u.id)}>Follow</button>
                         }
                     </div>
                 </span>
@@ -61,10 +58,8 @@ class Users extends React.Component<UsersPropsType> {
                 </span>
                 </div>)
             }
-        </div>)
-    }
-
+        </div>
+    )
 }
-
 
 export default Users
