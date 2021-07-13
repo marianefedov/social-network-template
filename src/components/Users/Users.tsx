@@ -4,6 +4,7 @@ import {UsersType} from "../../redux/users-reducer";
 import defaultUserPhoto from '../../assets/images/download.jpg';
 import { NavLink } from 'react-router-dom';
 import axios from "axios";
+import {usersAPI} from "../../api/api";
 // import {debuglog} from "util";
 
 
@@ -27,32 +28,33 @@ let Users = (props:UsersPropsType) => {
     }
 
     let followRequest = (userId: number) =>
-        axios.post(
-            `https://social-network.samuraijs.com/api/1.0/follow/${userId}`,
-            {},
-            {
-                withCredentials: true,
-                headers: {
-                    'API-KEY': '98e50b91-2dd1-49a4-9584-a347d63809c1'
-                }
-            }
-        ).then(response => {
+        usersAPI.followUser(userId)
+        // axios.post(
+        // `https://social-network.samuraijs.com/api/1.0/follow/${userId}`,
+        // {},
+        // {
+        //     withCredentials: true,
+        //     headers: {
+        //         'API-KEY': '98e50b91-2dd1-49a4-9584-a347d63809c1'
+        //     }
+        // })
+            .then(response => {
             if (response.data.resultCode === 0) {
                 props.follow(userId)
             }
         })
 
     let unfollowRequest = (userId:number) => {
-        // debugger
-        axios.delete(
-            `https://social-network.samuraijs.com/api/1.0/follow/${userId}`,
-            {
-                withCredentials: true,
-                headers: {
-                    'API-KEY': '98e50b91-2dd1-49a4-9584-a347d63809c1'
-                }
-            }
-        ).then(response => {
+        usersAPI.unfollowUser(userId)
+        // axios.delete(
+        //     `https://social-network.samuraijs.com/api/1.0/follow/${userId}`,
+        //     {
+        //         withCredentials: true,
+        //         headers: {
+        //             'API-KEY': '98e50b91-2dd1-49a4-9584-a347d63809c1'
+        //         }
+        //     })
+            .then(response => {
             if (response.data.resultCode === 0) {
                 props.unfollow(userId)
             }
