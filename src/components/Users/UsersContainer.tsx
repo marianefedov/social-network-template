@@ -9,7 +9,7 @@ import {AppStateType} from "../../redux/redux-store";
 import axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import {toggleIsFetching} from "../../redux/action";
+import {toggleFollowInProgress, toggleIsFetching} from "../../redux/action";
 import { usersAPI} from "../../api/api";
 
 // import {connect} from 'react-redux'
@@ -24,6 +24,10 @@ type MapStatePropsType = {
     totalUsersCount: number
     currentPage: number
     isFetching:boolean
+    followingInProgress: [
+        isFetching:boolean,
+        userId:number,
+    ]
 }
 type UsersAPIPropsType = {
     users: UsersType[]
@@ -31,6 +35,10 @@ type UsersAPIPropsType = {
     totalUsersCount: number
     currentPage: number
     isFetching:boolean
+    followingInProgress: [
+        isFetching:boolean,
+        userId:number,
+    ]
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     onPageChanged: (p:number)=> void
@@ -79,6 +87,8 @@ class UsersContainer extends React.Component<UsersAPIPropsType, AppStateType> {
                     follow={this.props.follow}
                     unfollow={this.props.unfollow}
                     onPageChanged={this.onPageChanged}
+                    followingInProgress={this.props.followingInProgress}
+                    toggleFollowInProgress={toggleFollowInProgress}
                 />
             </>
         )
@@ -87,13 +97,14 @@ class UsersContainer extends React.Component<UsersAPIPropsType, AppStateType> {
 
 
 let mapStateToProps = ({usersPage}: AppStateType):MapStatePropsType => {
-    const {users, pageSize, totalUsersCount, currentPage, isFetching} = usersPage
+    const {users, pageSize, totalUsersCount, currentPage, isFetching, followingInProgress} = usersPage
     return {
         users,
         pageSize,
         totalUsersCount,
         currentPage,
-        isFetching
+        isFetching,
+        followingInProgress,
     }
 }
 
@@ -128,5 +139,6 @@ export default connect (mapStateToProps,    {
         setCurrentPage, //: setCurrentPageActionCreator,
         setTotalUsersCount, //: setTotalUsersCountAC,
         toggleIsFetching, //: toggleIsFetchingAC,
+        toggleFollowInProgress,
     })(UsersContainer)
 

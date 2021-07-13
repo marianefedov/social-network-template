@@ -11,6 +11,7 @@ export enum ACTIONS_TYPE {
     SET_USERS = 'SET_USERS',
     SET_CURRENT_PAGE = 'SET_CURRENT_PAGE',
     SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT',
+    TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS',
 
     //profile-reducer
     ADD_POST = 'ADD-POST',
@@ -44,5 +45,16 @@ export type SetAuthUserDataType = {
 export const setAuthUserData = (data:DataType):SetAuthUserDataType => ({
     type: ACTIONS_TYPE.SET_AUTH_USER_DATA,
     data
+})
+
+export type ToggleFollowInProgressType = {
+    type: typeof ACTIONS_TYPE.TOGGLE_IS_FOLLOWING_PROGRESS
+    isFetching:boolean
+    userId:number
+}
+export const toggleFollowInProgress = (isFetching:boolean, userId:number):ToggleFollowInProgressType => ({
+    type: ACTIONS_TYPE.TOGGLE_IS_FOLLOWING_PROGRESS,
+    isFetching,
+    userId
 })
 

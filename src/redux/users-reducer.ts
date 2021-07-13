@@ -1,4 +1,4 @@
-import {ACTIONS_TYPE, ToggleIsFetchingACType} from "./action";
+import {ACTIONS_TYPE, ToggleFollowInProgressType, ToggleIsFetchingACType} from "./action";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -14,6 +14,10 @@ export type UsersStateType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: [
+        isFetching:boolean,
+        userId:number,
+    ]
 }
 export type UsersType = {
     id: number
@@ -33,7 +37,8 @@ let initialState:UsersStateType =  {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: [false, 0]
 }
 
 let usersReducer = (state:UsersStateType = initialState, action: UsersActionType):UsersStateType => {
@@ -83,6 +88,17 @@ let usersReducer = (state:UsersStateType = initialState, action: UsersActionType
                 ...state, isFetching: action.isFetching
             }
         }
+        case ACTIONS_TYPE.TOGGLE_IS_FOLLOWING_PROGRESS: {
+
+            return {
+
+                ...state,
+                // @ts-ignore
+                followingInProgress: action.isFetching
+                    ?  [...state.followingInProgress,  action.userId]
+                    : state.followingInProgress.filter(id => action.userId !==id)
+            }
+        }
 
 
         default:
@@ -97,6 +113,8 @@ export type UsersActionType =
     | SetCurrentPageACType
     | SetTotalUsersCountACType
     | ToggleIsFetchingACType
+    | ToggleFollowInProgressType
+
 
 type FollowACType = {
     type: typeof FOLLOW
