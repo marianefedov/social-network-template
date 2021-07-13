@@ -4,13 +4,12 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
 type ProfilePropsType = {
-
-    // profile: any
-    // setUserProfile:(profile:ProfileType) => void
+    profile: ProfileType
+    setUserProfile:(profile:ProfileType) => void
 }
 
 
-const Profile = (props : any) => {
+const Profile = (props : ProfilePropsType) => {
     return (
         <div>
             <ProfileInfo profile={props.profile} />

@@ -1,7 +1,7 @@
 import React, {Dispatch} from "react";
 import {
     follow, setCurrentPage, setTotalUsersCount,
-    setUsers,  toggleIsFetching,
+    setUsers,
     unfollow,
     // UsersActionType,
     UsersType
@@ -10,6 +10,7 @@ import {AppStateType} from "../../redux/redux-store";
 import axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import {toggleIsFetching} from "../../redux/action";
 
 // import {connect} from 'react-redux'
 // import UsersAPIComponent from "./UsersAPIComponent";

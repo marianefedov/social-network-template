@@ -8,17 +8,19 @@ import { withRouter } from 'react-router-dom';
 
 
 
+type MapStateToPropsType = {
+    profile: ProfileType | null
+}
+
 type ProfileContainerPropsType = {
     profile: ProfileType
     setUserProfile:(profile:ProfileType) => void
+    match: any
+    hystory:any
+    location:any
 }
 
-type MapStateToPropsType = {
-    profile: ProfileType | null
-
-}
-
-class ProfileContainer extends React.Component <any, ProfileType> {
+class ProfileContainer extends React.Component <ProfileContainerPropsType, ProfileType> {
 
     componentDidMount() {
         // debugger
@@ -37,17 +39,19 @@ class ProfileContainer extends React.Component <any, ProfileType> {
 
         return (
             <div>
-                <Profile {...this.props} profile={this.props.profile}/>
+                <Profile setUserProfile={this.props.setUserProfile}  profile={this.props.profile}/>
             </div>
         )
     }
 }
+
 
 let mapStateToProps = ({profilePage}:AppStateType):MapStateToPropsType => ({
     profile: profilePage.profile
 })
 
 
+// @ts-ignore
 let WithUrlDataContainerComp= withRouter(ProfileContainer )
 
 export default connect (mapStateToProps,{
