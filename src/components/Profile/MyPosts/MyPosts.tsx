@@ -1,7 +1,7 @@
-import React, {RefObject} from 'react'
+import React from 'react'
 import s from './MyPosts.module.css'
 import Post from "./Post/Post";
-import {addPostActionCreator, PostsType, updateNewPostActionCreator} from "../../../redux/profile-reducer";
+import {PostsType} from "../../../redux/profile-reducer";
 
 export type MyPostsPropsType = {
     posts: PostsType[]

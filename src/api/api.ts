@@ -18,13 +18,12 @@ export const usersAPI = {
       return instance.get(`users?page=${currentPage}&count=${pageSize}`)
           .then(res => res.data)
    },
-   followUser: (userId:number) => {
+   follow: (userId:number) => {
       return instance.post(
           `follow/${userId}`,
       )
    },
-
-   unfollowUser: (userId:number) => {
+   unfollow: (userId:number) => {
       return  instance.delete(`follow/${userId}`)
    },
 
@@ -34,7 +33,6 @@ export const usersAPI = {
 //    return instance.get(`users?page=${currentPage}&count=${pageSize}`)
 //        .then(res => res.data)
 // }
-
 // export const followUser = (userId:number) => {
 //    return instance.post(
 //        `follow/${userId}`,
@@ -47,7 +45,6 @@ export const usersAPI = {
 //        }
 //    )
 // }
-
 // export const unfollowUser = (userId:number) => {
 //    return  instance.delete(
 //        `follow/${userId}`,

@@ -4,7 +4,7 @@ import axios from "axios";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {DataType, setAuthUserData, toggleIsFetching} from "../../redux/action";
-import Preloader from '../common/Preloader/Preloader';
+// import Preloader from '../common/Preloader/Preloader';
 
 type HeaderContainerPropsType = {
     isAuth: boolean

@@ -1,3 +1,5 @@
+import {UsersType} from "./users-reducer";
+
 export enum ACTIONS_TYPE {
     //common
     TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING',
@@ -28,10 +30,26 @@ export type ToggleIsFetchingACType = {
     type: typeof ACTIONS_TYPE.TOGGLE_IS_FETCHING
     isFetching:boolean
 }
+
 export const toggleIsFetching = (isFetching:boolean):ToggleIsFetchingACType => ({
     type: ACTIONS_TYPE.TOGGLE_IS_FETCHING,
     isFetching
 })
+
+export type SetUsersACType = {
+    type: typeof ACTIONS_TYPE.SET_USERS,
+    users: UsersType[]
+}
+export const setUsers = (users:UsersType[]):SetUsersACType =>
+    ({ type: ACTIONS_TYPE.SET_USERS, users})
+
+export type SetTotalUsersCountACType = {
+    type: typeof ACTIONS_TYPE.SET_TOTAL_USERS_COUNT,
+    totalUsersCount: number
+}
+
+export const setTotalUsersCount = (totalUsersCount:number):SetTotalUsersCountACType =>
+        ({type: ACTIONS_TYPE.SET_TOTAL_USERS_COUNT, totalUsersCount})
 
 export type DataType = {
     usersId: string
